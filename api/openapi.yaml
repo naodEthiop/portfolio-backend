@@ -1,0 +1,90 @@
+openapi: 3.0.3
+info:
+  title: Portfolio Platform API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: API is healthy
+  /api/projects:
+    get:
+      summary: List portfolio projects (GitHub + manual)
+      responses:
+        '200':
+          description: OK
+        '429':
+          description: Rate limited by GitHub
+        '502':
+          description: GitHub upstream error
+  /api/certificates:
+    get:
+      summary: List public certificates
+      responses:
+        '200':
+          description: OK
+  /api/skills:
+    get:
+      summary: List public skills
+      responses:
+        '200':
+          description: OK
+  /api/contact:
+    get:
+      summary: Get public profile + social links
+      responses:
+        '200':
+          description: OK
+  /api/teaching:
+    get:
+      summary: List public teaching items
+      responses:
+        '200':
+          description: OK
+  /api/awards:
+    get:
+      summary: List public awards
+      responses:
+        '200':
+          description: OK
+  /api/v1/auth/login:
+    post:
+      summary: Login for admin dashboard
+  /api/v1/projects:
+    get:
+      summary: List public projects
+  /api/v1/certificates:
+    get:
+      summary: List certificates
+  /api/v1/profile:
+    get:
+      summary: Get profile
+  /api/v1/admin/projects:
+    get:
+      summary: Admin list projects
+      security:
+        - bearerAuth: []
+    post:
+      summary: Admin create project
+      security:
+        - bearerAuth: []
+  /api/v1/admin/projects/{id}/image:
+    post:
+      summary: Upload project image
+      security:
+        - bearerAuth: []
+  /api/v1/admin/certificates:
+    post:
+      summary: Admin create certificate
+      security:
+        - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,19 @@
+# Binaries / build artifacts
+bin/
+tmp/
+*.exe
+
+# Logs
+*.log
+
+# Local env
+configs/.env
+.env
+.env.*
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Optional: ignore runtime project uploads (seeded certificate/profile assets are tracked)
+uploads/projects/
