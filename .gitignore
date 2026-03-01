@@ -10,6 +10,7 @@ tmp/
 configs/.env
 .env
 .env.*
+!.env.render.example
 
 # OS junk
 .DS_Store
