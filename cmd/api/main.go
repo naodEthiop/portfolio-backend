@@ -39,6 +39,14 @@ func main() {
 		log.Fatalf("failed to connect database: %v", err)
 	}
 
+	if isTruthy(os.Getenv("AUTO_MIGRATE")) {
+		dir := os.Getenv("MIGRATIONS_DIR")
+		log.Printf("applying SQL migrations from %s", dir)
+		if err := database.ApplySQLMigrations(db, dir); err != nil {
+			log.Fatalf("failed to apply migrations: %v", err)
+		}
+	}
+
 	jwtManager := auth.NewJWTManager(cfg.Auth.JWTSecret, cfg.Auth.JWTIssuer, cfg.JWTExpiryDuration())
 	var storageService storage.ImageStorage
 	switch strings.ToLower(cfg.Storage.Provider) {
@@ -125,5 +133,14 @@ func main() {
 	defer cancel()
 	if err := srv.Shutdown(ctx); err != nil {
 		log.Printf("graceful shutdown failed: %v", err)
+	}
+}
+
+func isTruthy(val string) bool {
+	switch strings.ToLower(strings.TrimSpace(val)) {
+	case "1", "true", "yes", "y", "on":
+		return true
+	default:
+		return false
 	}
 }
